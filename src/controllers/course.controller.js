@@ -63,4 +63,18 @@ const deleteCourse = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, null, "Course has been deleted successfully"));
 });
 
-export { createCourse, getAllCourses, deleteCourse };
+const getCourseById = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+
+  const course = await Course.findById(id);
+
+  if (!course) {
+    throw new ApiError(404, "Course not found");
+  }
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, course, "Course found successfully"));
+});
+
+export { createCourse, getAllCourses, deleteCourse, getCourseById };
