@@ -72,4 +72,18 @@ const deleteWorkshop = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, null, "Workshop has been deleted successfully"));
 });
 
-export { createWorkshop, getAllWorkshops, deleteWorkshop };
+const getWorkshopByItsId = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+
+  const workshop = await Workshop.findById(id);
+
+  if (!workshop) {
+    throw new ApiError(404, "Workshop not found");
+  }
+
+  return res
+    .status(201)
+    .json(new ApiResponse(200, workshop, "Workshop found successfully"));
+});
+
+export { createWorkshop, getAllWorkshops, deleteWorkshop, getWorkshopByItsId };
